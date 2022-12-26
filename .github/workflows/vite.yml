@@ -4,6 +4,8 @@ on:
     branches:
       - main
       - master
+permissions:
+  contents: write
 jobs:
   build:
     name: Deploy on gh-pages if mention
