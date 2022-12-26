@@ -6,11 +6,18 @@ on:
       - master
 jobs:
   build:
+    name: Deploy on gh-pages if mention
     if: startsWith(github.event.commits[0].message, 'gh-pages')
+    concurrency: ci-${{ github.ref }} # Recommended if you intend to make multiple deployments in quick succession.
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
       - name: Install dependencies
         run: npm install
       - name: Build and deploy
-        run: npm run build && npx gh-pages -d dist
+        run: npm run build
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: dist # The folder the action should deploy.
